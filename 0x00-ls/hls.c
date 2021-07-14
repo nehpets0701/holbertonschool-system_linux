@@ -21,7 +21,6 @@ int main(int argc, char **argv)
 
 	if (dr == NULL)
 	{
-		printf("%d\n", errno);
 		if (errno == 2)
 			fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
 					argv[0], argv[1]);
