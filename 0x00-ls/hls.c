@@ -10,8 +10,6 @@ int main(int argc, char **argv)
 {
 	(void) argc;
 	int printed = 0;
-	DIR * dirp = opendir(".");
-	struct dirent * entry;
 	struct dirent *de;
 	int file_count = 0;
 	DIR *dr = opendir(".");
@@ -19,22 +17,17 @@ int main(int argc, char **argv)
 	if (argv[1] != NULL)
 		dr = opendir(argv[1]);
 
-	while ((entry = readdir(dirp)) != NULL)
-	{
-		if (entry->d_type == DT_REG)
-		{
-			file_count++;
-		}
-	}
+	file_count = count();
 
 	if (dr == NULL)
 	{
 		printf("%d\n", errno);
 		if (errno == 2)
-			fprintf(stderr, "%s: cannot access '%s': No such file or directory\n", argv[0], argv[1]);
+			fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
+					argv[0], argv[1]);
 		else if (errno == 13)
 			fprintf(stderr, "Permission error");
-		exit (2);
+		exit(2);
 	}
 
 	while ((de = readdir(dr)) != NULL)
@@ -46,9 +39,31 @@ int main(int argc, char **argv)
 			else
 				printf("%s\n", de->d_name);
 		}
-		printed ++;
+		printed++;
 	}
 	printed = 0;
+
 	closedir(dr);
-	return (0);
+	exit(0);
+}
+
+
+/**
+*count-counts number of files
+*Return:number of files
+*/
+int count(void)
+{
+	DIR *dirp = opendir(".");
+	struct dirent *entry;
+	int file_count = 0;
+
+	while ((entry = readdir(dirp)) != NULL)
+	{
+		if (entry->d_type == DT_REG)
+		{
+			file_count++;
+		}
+	}
+	return (file_count);
 }

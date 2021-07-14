@@ -10,4 +10,7 @@
 #include <sys/types.h>
 /*includes*/
 
+/*prototypes*/
+int count(void);
+/*prototypes*/
 #endif
