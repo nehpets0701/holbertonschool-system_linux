@@ -8,11 +8,11 @@
 */
 int main(int argc, char **argv)
 {
-	(void) argc;
 	int printed = 0;
 	struct dirent *de;
 	int file_count = 0;
 	DIR *dr = opendir(".");
+	(void) argc;
 
 	if (argv[1] != NULL)
 		dr = opendir(argv[1]);
