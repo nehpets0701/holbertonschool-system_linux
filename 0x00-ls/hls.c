@@ -8,40 +8,44 @@
 */
 int main(int argc, char **argv)
 {
-	int printed = 0;
 	struct dirent *de;
 	int file_count = 0;
-	DIR *dr = opendir(".");
-	(void) argc;
+	int flag = 0;
+	DIR *dr;
+	(void)argc;
 
+	dr = opendir(".");
+	de = readdir(dr);
 	if (argv[1] != NULL)
-		dr = opendir(argv[1]);
-
+	{
+		flag = handleFlags(flag, argv[1], file_count, dr, de);
+		if (flag != 1)
+		{
+			dr = opendir(argv[1]);
+			if (dr != NULL)
+				printf("%s\n", argv[1]);
+		}
+	}
+	else
+		dr = opendir(".");
 	file_count = count();
-
 	if (dr == NULL)
 	{
 		if (errno == 2)
 			fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
 					argv[0], argv[1]);
 		else if (errno == 13)
-			fprintf(stderr, "Permission error");
+			fprintf(stderr, "%s: cannot open directory '%s': Permission denied\n",
+					argv[0], argv[1]);
+		else if (errno == 20)
+		{
+			printf("%s\n", argv[1]);
+			exit(0);
+		}
 		exit(2);
 	}
 
-	while ((de = readdir(dr)) != NULL)
-	{
-		if (de->d_name[0] != '.')
-		{
-			if (printed <= file_count)
-				printf("%s ", de->d_name);
-			else
-				printf("%s\n", de->d_name);
-		}
-		printed++;
-	}
-	printed = 0;
-
+	print(file_count, dr, de);
 	closedir(dr);
 	exit(0);
 }
@@ -65,4 +69,42 @@ int count(void)
 		}
 	}
 	return (file_count);
+}
+
+
+/**
+*handleFlags-handles options and flags
+*Return:flag
+*@flag:flag in question
+*@a:argv[1]
+*@file_count:file count
+*@dr:dr
+*@de:de
+*/
+int handleFlags(int flag, char *a, int file_count, DIR *dr, struct dirent *de)
+{
+	if (_strcmp(a, "-a") == 0)
+	{
+		printa(file_count, dr, de);
+		flag = 1;
+	}
+	else if (_strcmp(a, "-l") == 0)
+	{
+		printl(file_count, dr, de);
+		flag = 1;
+	}
+	else if (_strcmp(a, "-A") == 0)
+	{
+		printA(file_count, dr, de);
+		flag = 1;
+	}
+	else if (_strcmp(a, "-1") == 0)
+	{
+		print1(dr, de);
+		flag = 1;
+	}
+	else
+		flag = 0;
+
+	return (flag);
 }
