@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	file_count = count();
 	if (argv[1] != NULL)
 	{
-		flag = handleFlags(flag, argv[1], file_count, dr, de, argv);
+		flag = flags(flag, argv[1], file_count, dr, de, argv);
 		if (flag != 1)
 		{
 			dr = opendir(argv[1]);
@@ -32,20 +32,7 @@ int main(int argc, char **argv)
 	}
 
 	if (dr == NULL)
-	{
-		if (errno == 2)
-			fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
-					argv[0], argv[1]);
-		else if (errno == 13)
-			fprintf(stderr, "%s: cannot open directory '%s': Permission denied\n",
-					argv[0], argv[1]);
-		else if (errno == 20)
-		{
-			printf("%s\n", argv[1]);
-			exit(0);
-		}
-		exit(2);
-	}
+		errorHandling(argv);
 
 	print(file_count, dr, de);
 	closedir(dr);
@@ -70,43 +57,66 @@ int count(void)
 			file_count++;
 		}
 	}
+	closedir(dirp);
 	return (file_count);
 }
 
 
 /**
-*handleFlags-handles options and flags
+*flags-handles options and flags
 *Return:flag
-*@flag:flag in question
+*@f:flag in question
 *@a:argv[1]
-*@file_count:file count
+*@files:file count
 *@dr:dr
 *@de:de
+*@argv:argv
 */
-int handleFlags(int flag, char *a, int file_count, DIR *dr, struct dirent *de, char **argv)
+int flags(int f, char *a, int files, DIR *dr, struct dirent *de, char **argv)
 {
 	if (_strcmp(a, "-a") == 0)
 	{
-		printa(file_count, dr, de);
-		flag = 1;
+		printa(files, dr, de);
+		f = 1;
 	}
 	else if (_strcmp(a, "-l") == 0)
 	{
-		printl(file_count, dr, de);
-		flag = 1;
+		printl(files, dr, de);
+		f = 1;
 	}
 	else if (_strcmp(a, "-A") == 0)
 	{
-		printA(file_count, dr, de);
-		flag = 1;
+		printA(files, dr, de);
+		f = 1;
 	}
 	else if (_strcmp(a, "-1") == 0)
 	{
 		print1(dr, de, argv);
-		flag = 1;
+		f = 1;
 	}
 	else
-		flag = 0;
+		f = 0;
 
-	return (flag);
+	return (f);
+}
+
+
+/**
+*errorHandling-handles errors
+*@argv:argv
+*/
+void errorHandling(char **argv)
+{
+	if (errno == 2)
+		fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
+				argv[0], argv[1]);
+	else if (errno == 13)
+		fprintf(stderr, "%s: cannot open directory '%s': Permission denied\n",
+				argv[0], argv[1]);
+	else if (errno == 20)
+	{
+		printf("%s\n", argv[1]);
+		exit(0);
+	}
+	exit(2);
 }

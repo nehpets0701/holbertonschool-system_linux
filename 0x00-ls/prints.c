@@ -9,6 +9,7 @@
 void printa(int file_count, DIR *dr, struct dirent *de)
 {
 	int printed = 0;
+
 	printf(". ");
 	while ((de = readdir(dr)) != NULL)
 	{
@@ -35,7 +36,7 @@ void print(int file_count, DIR *dr, struct dirent *de)
 	{
 		if (de->d_name[0] != '.')
 		{
-			if (printed + 2 <= file_count)
+			if (printed + 2 < file_count)
 				printf("%s ", de->d_name);
 			else
 				printf("%s\n", de->d_name);
@@ -73,6 +74,7 @@ void printA(int file_count, DIR *dr, struct dirent *de)
 *print1-prints results
 *@dr:dr
 *@de:de
+*@argv:argv
 */
 void print1(DIR *dr, struct dirent *de, char **argv)
 {
