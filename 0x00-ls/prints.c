@@ -9,10 +9,10 @@
 void printa(int file_count, DIR *dr, struct dirent *de)
 {
 	int printed = 0;
-
+	printf(". ");
 	while ((de = readdir(dr)) != NULL)
 	{
-		if (printed < file_count)
+		if (printed <= file_count)
 			printf("%s ", de->d_name);
 		else
 			printf("%s\n", de->d_name);
@@ -35,12 +35,12 @@ void print(int file_count, DIR *dr, struct dirent *de)
 	{
 		if (de->d_name[0] != '.')
 		{
-			if (printed - 1 <= file_count)
+			if (printed + 2 <= file_count)
 				printf("%s ", de->d_name);
 			else
 				printf("%s\n", de->d_name);
+			printed++;
 		}
-		printed++;
 	}
 }
 
@@ -74,10 +74,19 @@ void printA(int file_count, DIR *dr, struct dirent *de)
 *@dr:dr
 *@de:de
 */
-void print1(DIR *dr, struct dirent *de)
+void print1(DIR *dr, struct dirent *de, char **argv)
 {
 	while ((de = readdir(dr)) != NULL)
 	{
+		if (argv[2] != NULL)
+		{
+			dr = opendir(argv[2]);
+			if (dr != NULL)
+			{
+				printf("%s\n", argv[2]);
+				exit(0);
+			}
+		}
 		if (de->d_name[0] != '.')
 			printf("%s\n", de->d_name);
 	}
@@ -93,9 +102,12 @@ void print1(DIR *dr, struct dirent *de)
 void printl(int file_count, DIR *dr, struct dirent *de)
 {
 	int printed = 0;
+	struct stat buf;
 
 	while ((de = readdir(dr)) != NULL)
 	{
+		lstat(de->d_name, &buf);
+		printf("%d\n", buf.st_uid);
 		if (de->d_name[0] != '.')
 		{
 			if (printed <= file_count)

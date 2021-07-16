@@ -16,19 +16,21 @@ int main(int argc, char **argv)
 
 	dr = opendir(".");
 	de = readdir(dr);
+	file_count = count();
 	if (argv[1] != NULL)
 	{
-		flag = handleFlags(flag, argv[1], file_count, dr, de);
+		flag = handleFlags(flag, argv[1], file_count, dr, de, argv);
 		if (flag != 1)
 		{
 			dr = opendir(argv[1]);
 			if (dr != NULL)
+			{
 				printf("%s\n", argv[1]);
+				exit(0);
+			}
 		}
 	}
-	else
-		dr = opendir(".");
-	file_count = count();
+
 	if (dr == NULL)
 	{
 		if (errno == 2)
@@ -81,7 +83,7 @@ int count(void)
 *@dr:dr
 *@de:de
 */
-int handleFlags(int flag, char *a, int file_count, DIR *dr, struct dirent *de)
+int handleFlags(int flag, char *a, int file_count, DIR *dr, struct dirent *de, char **argv)
 {
 	if (_strcmp(a, "-a") == 0)
 	{
@@ -100,7 +102,7 @@ int handleFlags(int flag, char *a, int file_count, DIR *dr, struct dirent *de)
 	}
 	else if (_strcmp(a, "-1") == 0)
 	{
-		print1(dr, de);
+		print1(dr, de, argv);
 		flag = 1;
 	}
 	else
