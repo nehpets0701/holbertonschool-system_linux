@@ -22,10 +22,12 @@ int main(int argc, char **argv)
 		flag = flags(flag, argv[1], file_count, dr, de, argv);
 		if (flag != 1)
 		{
+			closedir(dr);
 			dr = opendir(argv[1]);
 			if (dr != NULL)
 			{
 				printf("%s\n", argv[1]);
+				closedir(dr);
 				exit(0);
 			}
 		}
@@ -52,10 +54,10 @@ int count(void)
 
 	while ((entry = readdir(dirp)) != NULL)
 	{
-		if (entry->d_type == DT_REG)
-		{
-			file_count++;
-		}
+		/*if (entry->d_type == DT_REG)
+		{*/
+		file_count++;
+		/*}*/
 	}
 	closedir(dirp);
 	return (file_count);

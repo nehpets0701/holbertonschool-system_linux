@@ -36,7 +36,7 @@ void print(int file_count, DIR *dr, struct dirent *de)
 	{
 		if (de->d_name[0] != '.')
 		{
-			if (printed + 2 < file_count)
+			if (printed + 4 < file_count)
 				printf("%s ", de->d_name);
 			else
 				printf("%s\n", de->d_name);
@@ -103,6 +103,7 @@ void print1(DIR *dr, struct dirent *de, char **argv)
 */
 void printl(int file_count, DIR *dr, struct dirent *de)
 {
+	/*
 	int printed = 0;
 	struct stat buf;
 
@@ -118,5 +119,19 @@ void printl(int file_count, DIR *dr, struct dirent *de)
 				printf("%s\n", de->d_name);
 		}
 		printed++;
+	}
+	*/
+	int printed = 0;
+
+	while ((de = readdir(dr)) != NULL)
+	{
+		if (de->d_name[0] != '.')
+		{
+			if (printed + 4 < file_count)
+				printf("%s ", de->d_name);
+			else
+				printf("%s\n", de->d_name);
+			printed++;
+		}
 	}
 }
