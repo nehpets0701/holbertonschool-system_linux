@@ -109,7 +109,7 @@ void errorHandling(char **argv)
 		fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
 				argv[0], argv[1]);
 	else if (errno == 13)
-		fprintf(stderr, "%s: cannot open directory '%s': Permission denied\n",
+		fprintf(stderr, "%s: cannot open directory %s: Permission denied\n",
 				argv[0], argv[1]);
 	else if (errno == 20)
 	{
