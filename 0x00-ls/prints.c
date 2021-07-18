@@ -103,24 +103,6 @@ void print1(DIR *dr, struct dirent *de, char **argv)
 */
 void printl(int file_count, DIR *dr, struct dirent *de)
 {
-	/*
-	int printed = 0;
-	struct stat buf;
-
-	while ((de = readdir(dr)) != NULL)
-	{
-		lstat(de->d_name, &buf);
-		printf("%d\n", buf.st_uid);
-		if (de->d_name[0] != '.')
-		{
-			if (printed <= file_count)
-				printf("%s ", de->d_name);
-			else
-				printf("%s\n", de->d_name);
-		}
-		printed++;
-	}
-	*/
 	int printed = 0;
 
 	while ((de = readdir(dr)) != NULL)

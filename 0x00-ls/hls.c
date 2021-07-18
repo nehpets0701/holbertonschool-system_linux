@@ -53,12 +53,8 @@ int count(void)
 	int file_count = 0;
 
 	while ((entry = readdir(dirp)) != NULL)
-	{
-		/*if (entry->d_type == DT_REG)
-		{*/
 		file_count++;
-		/*}*/
-	}
+
 	closedir(dirp);
 	return (file_count);
 }
