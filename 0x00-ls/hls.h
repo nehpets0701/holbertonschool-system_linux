@@ -13,9 +13,9 @@
 
 /*prototypes*/
 int count(void);
-int flags(int f, char *a, int files, DIR *dr, struct dirent *de, char **argv);
+int flags(int f, int files, DIR *dr, struct dirent *de, char **argv, int argc);
 void print(int file_count, DIR *dr, struct dirent *de);
-void printa(int file_count, DIR *dr, struct dirent *de);
+void printa(int count, DIR *dr, struct dirent *de, int ac, char **av);
 void print1(DIR *dr, struct dirent *de, char **argv);
 void printA(int file_count, DIR *dr, struct dirent *de);
 void printl(int file_count, DIR *dr, struct dirent *de);

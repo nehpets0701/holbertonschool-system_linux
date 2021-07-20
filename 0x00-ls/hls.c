@@ -12,14 +12,13 @@ int main(int argc, char **argv)
 	int file_count = 0;
 	int flag = 0;
 	DIR *dr;
-	(void)argc;
 
 	dr = opendir(".");
 	de = readdir(dr);
 	file_count = count();
 	if (argv[1] != NULL)
 	{
-		flag = flags(flag, argv[1], file_count, dr, de, argv);
+		flag = flags(flag, file_count, dr, de, argv, argc);
 		if (flag != 1)
 		{
 			closedir(dr);
@@ -64,36 +63,39 @@ int count(void)
 *flags-handles options and flags
 *Return:flag
 *@f:flag in question
-*@a:argv[1]
+*@argc:argc
 *@files:file count
 *@dr:dr
 *@de:de
 *@argv:argv
 */
-int flags(int f, char *a, int files, DIR *dr, struct dirent *de, char **argv)
+int flags(int f, int files, DIR *dr, struct dirent *de, char **argv, int argc)
 {
-	if (_strcmp(a, "-a") == 0)
+	int i;
+
+	for (i = 1; i < argc; i++)
 	{
-		printa(files, dr, de);
-		f = 1;
+		if (_strcmp(argv[i], "-a") == 0)
+		{
+			f = 1;
+			printa(files, dr, de, argc, argv);
+		}
+		else if (_strcmp(argv[i], "-l") == 0)
+		{
+			printl(files, dr, de);
+			f = 1;
+		}
+		else if (_strcmp(argv[i], "-A") == 0)
+		{
+			printA(files, dr, de);
+			f = 1;
+		}
+		else if (_strcmp(argv[i], "-1") == 0)
+		{
+			print1(dr, de, argv);
+			f = 1;
+		}
 	}
-	else if (_strcmp(a, "-l") == 0)
-	{
-		printl(files, dr, de);
-		f = 1;
-	}
-	else if (_strcmp(a, "-A") == 0)
-	{
-		printA(files, dr, de);
-		f = 1;
-	}
-	else if (_strcmp(a, "-1") == 0)
-	{
-		print1(dr, de, argv);
-		f = 1;
-	}
-	else
-		f = 0;
 
 	return (f);
 }

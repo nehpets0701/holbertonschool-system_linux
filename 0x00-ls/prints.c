@@ -5,19 +5,52 @@
 *@file_count: number of files
 *@dr:dr
 *@de:de
+*@f:flag
 */
-void printa(int file_count, DIR *dr, struct dirent *de)
+void printa(int count, DIR *dr, struct dirent *de, int ac, char **av)
 {
 	int printed = 0;
+	int i;
+	int flag = 0;
 
-	printf(". ");
-	while ((de = readdir(dr)) != NULL)
+	if (av[2] == NULL)
 	{
-		if (printed <= file_count)
-			printf("%s ", de->d_name);
-		else
-			printf("%s\n", de->d_name);
-		printed++;
+		printf(". ");
+		while ((de = readdir(dr)) != NULL)
+		{
+			if (printed + 3 <= count)
+				printf("%s ", de->d_name);
+			else
+				printf("%s\n", de->d_name);
+			printed++;
+		}
+	}
+	else
+	{
+		for (i = 1; i < ac; i++)
+		{
+			DIR *check = opendir(av[i]);
+
+			if (!check && av[i][0] != '-')
+			{
+				fprintf(stderr, "%s: cannot access '%s': No such file or directory\n",
+					av[0], av[i]);
+				flag = 1;
+			}
+
+			if (flag == 1 && i == ac - 1)
+			{
+				closedir(check);
+				exit (2);
+			}
+			closedir(check);
+		}
+		for (i = 1; i < ac; i++)
+		{
+			if (av[i][0] != '-')
+				printf("%s\n", av[i]);
+		}
+		exit(0);
 	}
 }
 
@@ -60,7 +93,7 @@ void printA(int file_count, DIR *dr, struct dirent *de)
 	{
 		if (_strcmp(de->d_name, "..") != 0 && _strcmp(de->d_name, ".") != 0)
 		{
-			if (printed < file_count)
+			if (printed + 3 < file_count)
 				printf("%s ", de->d_name);
 			else
 				printf("%s\n", de->d_name);
