@@ -130,9 +130,9 @@ char *extract_line(fd_t *holder)
 }
 
 /**
-* end_of_buffer - this handles lines that need multiple reads
-* @holder: struct holding all necessary info
-* @start: left bound of string
+* end_of_buffer - multiple reads
+* @holder: struct with data
+* @start: start
 * Return: full line string, else NULL
 */
 char *end_of_buffer(fd_t *holder, int start)
@@ -171,11 +171,10 @@ char *end_of_buffer(fd_t *holder, int start)
 }
 
 /**
-* _strndup - duplicates n chars of a string
-* @src: source string to copy from
-* @n: number of chars to copy
-*
-* Return: pointer to new string, else NULL
+* _strndup - strndup
+* @src: src
+* @n: n
+* Return: new or null
 */
 char *_strndup(char *src, int n)
 {
