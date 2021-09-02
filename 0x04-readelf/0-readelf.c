@@ -3,8 +3,8 @@
 /**
 *main-main
 *Return:0 hopefully
-*@ac:ac
-*@av:av
+*@argc:ac
+*@argv:av
 */
 int main(int argc, char **argv)
 {

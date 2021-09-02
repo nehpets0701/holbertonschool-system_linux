@@ -38,7 +38,7 @@ void printSectionAddr(unsigned char *data, int class, int endianess)
 }
 
 /**
- * printSection_off - print section offset
+ * printSectionOff - print section offset
  * @data: character array
  * @class: ELFCLASS32 or ELFCLASS64
  * @endianess: LSB or MSB
