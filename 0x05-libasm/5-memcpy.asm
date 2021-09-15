@@ -9,7 +9,7 @@ asm_memcpy:
     push rbp
     mov rbp, rsp
 
-    push r8b
+    push r8
     push r9
 
     mov rax, rdi
