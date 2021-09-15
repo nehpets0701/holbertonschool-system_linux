@@ -19,7 +19,7 @@ asm_puts:
     mov rdx, rax
     mov rax, 1
     mov rsi, rdi
-    mov rdi, 1   
+    mov rdi, 1
     syscall
 
 end:
