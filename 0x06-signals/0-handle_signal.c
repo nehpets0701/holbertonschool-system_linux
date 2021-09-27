@@ -4,9 +4,9 @@
 *event-catch signal
 *@sig:sigint
 */
-void event(int sig)
+void event(int signum)
 {
-	printf("Gotcha! [%d]\n", sig);
+	printf("Gotcha! [%d]\n", signum);
 }
 
 /**
