@@ -12,6 +12,4 @@ int handle_sigaction(void);
 void (*current_handler_sigaction(void))(int);
 int trace_signal_sender(void);
 
-void event(int);
-
 #endif
