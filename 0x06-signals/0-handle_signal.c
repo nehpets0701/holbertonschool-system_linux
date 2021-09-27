@@ -2,7 +2,7 @@
 
 /**
 *event-catch signal
-*@sig:sigint
+*@signum:sigint
 */
 void event(int signum)
 {
