@@ -15,6 +15,7 @@ void event(int sig)
 */
 int handle_signal(void)
 {
-	signal(SIGINT, event);
+	if (signal(SIGINT, event) == SIG_ERR)
+		return (-1);
 	return (0);
 }
