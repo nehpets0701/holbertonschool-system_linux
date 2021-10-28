@@ -1,4 +1,4 @@
-#include "objdump.h"
+#include "hobjdump.h"
 
 /**
  * get_file_frmt - get file format
