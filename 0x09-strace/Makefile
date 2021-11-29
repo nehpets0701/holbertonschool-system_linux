@@ -1,11 +1,11 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -pedantic -ggdb3 -std=gnu90
 HEADERS = strace.h syscalls.h
-TASK_0 = strace_0
-TASK_1 = strace_1
-TASK_2 = strace_2
-TASK_3 = strace_3
-UTILS = utils
+TASK_0 = 0strace
+TASK_1 = 1strace
+TASK_2 = 2strace
+TASK_3 = 3strace
+HELPERS = helpers
 
 .PHONY: clean, check
 
