@@ -1,6 +1,8 @@
 #ifndef MULTITHREADING_H
 #define MULTITHREADING_H
 
+#include "list.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <pthread.h>
@@ -70,6 +72,42 @@ typedef struct blur_portion_s
     size_t h;
     kernel_t const *kernel;
 } blur_portion_t;
+
+/**
+ * enum task_status_e - Task statuses
+ *
+ * @PENDING: Task is pending
+ * @STARTED: Task has been started
+ * @SUCCESS: Task has completed successfully
+ * @FAILURE: Task has completed with issues
+ */
+typedef enum task_status_e
+{
+	PENDING = 0,
+	STARTED,
+	SUCCESS,
+	FAILURE
+} task_status_t;
+
+typedef void *(*task_entry_t)(void *);
+
+/**
+ * struct task_s - Executable task structure
+ *
+ * @entry:  Pointer to a function to serve as the task entry
+ * @param:  Address to a custom content to be passed to the entry function
+ * @status: Task status, default to PENDING
+ * @result: Stores the return value of the entry function
+ * @lock:   Task mutex
+ */
+typedef struct task_s
+{
+	task_entry_t    entry;
+	void        *param;
+	task_status_t   status;
+	void        *result;
+	pthread_mutex_t lock;
+} task_t;
 
 void *thread_entry(void *arg);
 int tprintf(char const *format, ...);
