@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <errno.h>
 
 /**
  * struct pixel_s - RGB pixel
