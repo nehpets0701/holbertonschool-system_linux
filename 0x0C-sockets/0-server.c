@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <stdlib.h>
+#include <arpa/inet.h>
 
 /**
  * main-open a socket
@@ -18,11 +19,12 @@ int main(void)
 
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = INADDR_ANY;
-	addr.sin_port = htons(PORT);
+	addr.sin_port = htons(12345);
 
-	if (bind(sck, (struct sockaddr *)&addr, sizeof(addr)) < 0)
+	if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
 		return (EXIT_FAILURE);
-	listen(sck, 3);
+	listen(sock, 3);
+	printf("Listening on port 12345\n");
 	while (1)
 		;
 	return (EXIT_SUCCESS);
