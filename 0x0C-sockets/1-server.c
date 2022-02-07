@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 /**
  * main-opens and closes a socket after connection
@@ -10,7 +11,7 @@
  */
 int main(void)
 {
-	int sock, newsSock, clientSize;
+	int sock, newSock, clientSize;
 	struct sockaddr_in addr, client;
 
 	sock = socket(AF_INET, SOCK_STREAM, 0);
