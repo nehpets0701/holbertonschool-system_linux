@@ -28,6 +28,7 @@ int main(void)
 	if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
 		return (EXIT_FAILURE);
 	listen(sock, 3);
+	printf("Server listening on port 12345\n");
 	clientSize = sizeof(client);
 	newSock = accept(sock, (struct sockaddr *)&client, (socklen_t *)&clientSize);
 	if (newSock < 0)
